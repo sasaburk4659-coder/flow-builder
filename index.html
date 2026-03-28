@@ -1,54 +1,579 @@
 <!DOCTYPE html>
-<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>FlowBuilder AI</title><style>*{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a2e;--surface3:#232340;--border:#2a2a4a;--text:#e0e0ff;--text2:#8888aa;--accent:#6366f1;--accent2:#818cf8;--green:#22c55e;--red:#ef4444;--orange:#f59e0b}html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}.topbar{height:48px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:8px;z-index:100}.topbar .logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.topbar .project-name{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text);font-size:13px;outline:none;width:180px}.topbar button{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer}.topbar button.primary{background:var(--accent);border-color:var(--accent);color:#fff}.topbar .spacer{flex:1}.topbar .stats{font-size:11px;color:var(--text2);display:flex;gap:12px}.main{display:flex;height:calc(100vh - 48px - 32px)}.sidebar-left{width:260px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}.sidebar-left .search-box{padding:8px;border-bottom:1px solid var(--border);position:relative}.sidebar-left .search-box input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px 7px 30px;color:var(--text);font-size:12px;outline:none}.sidebar-left .search-box::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:12px}.block-list{flex:1;overflow-y:auto;padding:4px 0}.category-header{padding:6px 12px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:flex;justify-content:space-between}.category-header .arrow{transition:transform .2s}.category-header.collapsed .arrow{transform:rotate(-90deg)}.category-items{padding:0 6px 4px}.category-items.hidden{display:none}.block-item{padding:6px 8px;border-radius:6px;font-size:12px;cursor:grab;display:flex;align-items:center;gap:8px;border:1px solid transparent;margin:1px 0}.block-item:hover{background:var(--surface2);border-color:var(--border)}.block-item .icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px}.block-item .name{flex:1}.canvas-container{flex:1;position:relative;overflow:hidden;background:var(--bg)}.canvas-bg{position:absolute;inset:0;background-image:radial-gradient(circle,var(--border) 1px,transparent 1px);background-size:24px 24px;opacity:.4}svg#mainSvg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}.canvas-blocks{position:absolute;inset:0;pointer-events:none}.block{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:10px;min-width:160px;cursor:move;pointer-events:all}.block.selected{border-color:var(--accent);box-shadow:0 0 25px rgba(99,102,241,.3)}.block-header{padding:8px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}.block-header .icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center}.block-header .title{flex:1}.block-header .delete{opacity:0;cursor:pointer;font-size:14px;color:var(--red)}.block:hover .block-header .delete{opacity:.7}.block-body{padding:8px 10px;font-size:11px;color:var(--text2)}.port{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--surface);position:absolute;cursor:crosshair;z-index:5}.port:hover{transform:scale(1.4);border-color:var(--accent);background:var(--accent)}.port.input{left:-6px}.port.output{right:-6px}.sidebar-right{width:320px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}.sidebar-tabs{display:flex;border-bottom:1px solid var(--border)}.sidebar-tabs button{flex:1;padding:10px;background:none;border:none;color:var(--text2);font-size:12px;cursor:pointer;border-bottom:2px solid transparent}.sidebar-tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}.tab-content{flex:1;overflow-y:auto;padding:12px}.tab-content.hidden{display:none}.prop-group{margin-bottom:12px}.prop-group label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px}.prop-group input,.prop-group select,.prop-group textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:12px;outline:none}.no-selection{text-align:center;color:var(--text2);padding:40px 20px}.chat-messages{flex:1;overflow-y:auto;padding:8px}.chat-msg{padding:8px 10px;border-radius:8px;margin-bottom:6px;font-size:12px;max-width:90%}.chat-msg.user{background:var(--accent);color:#fff;margin-left:auto}.chat-msg.ai{background:var(--surface2);color:var(--text)}.chat-input-area{display:flex;gap:6px;padding:8px;border-top:1px solid var(--border);background:var(--surface)}.chat-input-area input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-size:12px}.chat-input-area button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer}.model-selector{position:relative}.model-btn{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12px}.model-dropdown{display:none;position:absolute;bottom:100%;left:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;z-index:200;min-width:180px}.model-dropdown.show{display:block}.model-item{padding:8px 12px;cursor:pointer;font-size:12px}.model-item:hover{background:var(--surface2)}.model-item.active{color:var(--accent)}.connector-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:8px}.connector-card .info{flex:1}.connector-card .name{font-weight:600;font-size:12px}.connector-card .desc{font-size:10px;color:var(--text2)}.connector-card .status{font-size:10px;padding:2px 6px;border-radius:10px}.connector-card .status.on{background:rgba(34,197,94,.2);color:var(--green)}.connector-card .status.off{background:rgba(239,68,68,.2);color:var(--red)}.connector-card button{background:var(--surface3);border:1px solid var(--border);border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer}.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000}.modal-content{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;width:320px}.modal-content input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;margin:10px 0;color:var(--text)}.modal-content button{margin-top:10px;padding:8px 12px;background:var(--accent);border:none;border-radius:6px;color:#fff;cursor:pointer}.bottombar{height:32px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;font-size:11px;color:var(--text2)}.toast-container{position:fixed;top:60px;right:16px;z-index:3000}.toast{padding:10px 16px;border-radius:8px;font-size:12px;margin-bottom:8px}.toast.success{background:var(--green);color:#fff}.toast.error{background:var(--red);color:#fff}</style></head><body>
-<div class="topbar"><div class="logo">⚡ FlowBuilder AI</div><input class="project-name" id="projectName" value="My Workflow"><div class="sep"></div><button onclick="undo()">↩ Undo</button><button onclick="redo()">↪ Redo</button><div class="sep"></div><button onclick="saveProject()">💾 Save</button><div class="spacer"></div><div class="stats"><span id="blockCount">0 blocks</span><span id="connCount">0 connections</span></div><button class="primary" onclick="runWorkflow()">▶ Run</button></div>
-<div class="main"><div class="sidebar-left"><div class="search-box"><input placeholder="Search blocks..." id="blockSearch" oninput="filterBlocks()"></div><div class="block-list" id="blockList"></div></div>
-<div class="canvas-container" id="canvasContainer"><div class="canvas-bg" id="canvasBg"></div><svg id="mainSvg"></svg><div class="canvas-blocks" id="canvasBlocks"></div></div>
-<div class="sidebar-right"><div class="sidebar-tabs"><button class="active" onclick="switchTab('props')">📋 Properties</button><button onclick="switchTab('ai')">🤖 AI</button></div>
-<div class="tab-content" id="tabProps"><div class="no-selection" id="noSelection">Select a block</div><div id="propsContent" style="display:none"></div></div>
-<div class="tab-content hidden" id="tabAI"><div style="margin-bottom:12px;padding:8px;background:var(--surface2);border-radius:8px"><div style="font-size:11px;color:var(--text2);margin-bottom:6px">🤖 Подключённые модели</div><div id="connectorsList"></div></div>
-<div class="chat-messages" id="chatMessages"><div class="chat-msg ai">👋 Опишите что построить.<div class="suggestion-chips" style="margin-top:6px"><span style="background:var(--surface3);padding:2px 8px;border-radius:12px;display:inline-block;margin-right:4px;cursor:pointer" onclick="aiSuggest('Сделай email рассылку')">📧 Email</span><span style="background:var(--surface3);padding:2px 8px;border-radius:12px;cursor:pointer" onclick="aiSuggest('Сделай звонок')">📞 Call</span></div></div></div>
-<div class="chat-input-area"><div class="model-selector"><button class="model-btn" id="modelBtn" onclick="toggleModelDropdown()">🤖 HuggingFace</button><div class="model-dropdown" id="modelDropdown"></div></div><input id="chatInput" placeholder="Опишите..." onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Send</button></div></div></div></div>
-<div class="bottombar"><span>⚡ FlowBuilder AI</span><span style="margin-left:auto" id="logOutput">Ready</span></div>
-<div id="toastContainer" class="toast-container"></div>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>FlowBuilder AI — Экспорт в ZIP</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#12121a;--surface2:#1a1a2e;--surface3:#232340;--border:#2a2a4a;--text:#e0e0ff;--text2:#8888aa;--accent:#6366f1;--accent2:#818cf8;--green:#22c55e;--red:#ef4444}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.topbar{height:48px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:8px;z-index:100}
+.topbar .logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--accent),#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar .project-name{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text);font-size:13px;outline:none;width:180px}
+.topbar .sep{width:1px;height:24px;background:var(--border);margin:0 4px}
+.topbar button{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s}
+.topbar button:hover{background:var(--surface3);color:var(--text);border-color:var(--accent)}
+.topbar button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.topbar button.export{background:var(--green);border-color:var(--green);color:#fff}
+.topbar .spacer{flex:1}
+.topbar .stats{font-size:11px;color:var(--text2);display:flex;gap:12px}
+.main{display:flex;height:calc(100vh - 48px - 32px)}
+.sidebar-left{width:280px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sidebar-left .search-box{padding:8px;border-bottom:1px solid var(--border);position:relative}
+.sidebar-left .search-box input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px 7px 30px;color:var(--text);font-size:12px;outline:none}
+.sidebar-left .search-box::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:12px}
+.block-list{flex:1;overflow-y:auto;padding:4px 0}
+.category-header{padding:6px 12px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.category-header .arrow{transition:transform .2s}
+.category-header.collapsed .arrow{transform:rotate(-90deg)}
+.category-items{padding:0 6px 4px}
+.category-items.hidden{display:none}
+.block-item{padding:6px 8px;border-radius:6px;font-size:12px;cursor:grab;display:flex;align-items:center;gap:8px;border:1px solid transparent}
+.block-item:hover{background:var(--surface2);border-color:var(--border)}
+.block-item .icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.canvas-container{flex:1;position:relative;overflow:hidden;background:var(--bg);cursor:grab}
+.canvas-bg{position:absolute;inset:0;background-image:radial-gradient(circle,var(--border) 1px,transparent 1px);background-size:24px 24px;opacity:.4}
+svg#mainSvg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.canvas-blocks{position:absolute;inset:0;pointer-events:none}
+.block{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:10px;min-width:160px;cursor:move;pointer-events:all}
+.block.selected{border-color:var(--accent);box-shadow:0 0 25px rgba(99,102,241,.3)}
+.block-header{padding:8px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+.block-header .icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center}
+.block-header .title{flex:1}
+.block-header .delete{opacity:0;cursor:pointer;font-size:14px;color:var(--red)}
+.block:hover .block-header .delete{opacity:.7}
+.block-body{padding:8px 10px;font-size:11px;color:var(--text2)}
+.port{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);background:var(--surface);position:absolute;cursor:crosshair;z-index:5}
+.port:hover{transform:scale(1.4);border-color:var(--accent);background:var(--accent)}
+.port.input{left:-6px}
+.port.output{right:-6px}
+.sidebar-right{width:300px;background:var(--surface);border-left:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar-tabs{display:flex;border-bottom:1px solid var(--border)}
+.sidebar-tabs button{flex:1;padding:10px;background:none;border:none;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent}
+.sidebar-tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{flex:1;overflow-y:auto;padding:12px}
+.tab-content.hidden{display:none}
+.prop-group{margin-bottom:12px}
+.prop-group label{font-size:11px;color:var(--text2);display:block;margin-bottom:4px}
+.prop-group input,.prop-group textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:12px}
+.no-selection{text-align:center;color:var(--text2);padding:40px 20px}
+.chat-messages{flex:1;overflow-y:auto;padding:8px}
+.chat-msg{padding:8px 10px;border-radius:8px;margin-bottom:6px;font-size:12px;max-width:90%}
+.chat-msg.user{background:var(--accent);color:#fff;margin-left:auto}
+.chat-msg.ai{background:var(--surface2)}
+.chat-msg.ai .suggestion-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chat-msg.ai .chip{background:var(--surface3);border:1px solid var(--border);padding:3px 8px;border-radius:12px;font-size:10px;cursor:pointer}
+.chat-input-area{padding:8px;border-top:1px solid var(--border);display:flex;gap:6px}
+.chat-input-area input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px}
+.chat-input-area button{background:var(--accent);border:none;color:#fff;padding:7px 12px;border-radius:6px;cursor:pointer}
+.bottombar{height:32px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 12px;font-size:11px;color:var(--text2);gap:16px}
+.bottombar .log{flex:1;white-space:nowrap;overflow:hidden}
+.zoom-controls{position:absolute;bottom:12px;left:12px;display:flex;gap:4px;z-index:50}
+.zoom-controls button{width:32px;height:32px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer}
+.nav-controls{position:absolute;bottom:12px;left:100px;display:flex;gap:4px;z-index:50}
+.nav-controls button{width:32px;height:32px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--text);cursor:pointer}
+.minimap{position:absolute;bottom:12px;right:12px;width:160px;height:100px;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;z-index:50;opacity:.8}
+.minimap canvas{width:100%;height:100%}
+.toast-container{position:fixed;top:60px;right:16px;z-index:3000;display:flex;flex-direction:column;gap:8px}
+.toast{padding:10px 16px;border-radius:8px;font-size:12px;animation:slideIn .3s ease}
+.toast.success{background:var(--green);color:#fff}
+.toast.error{background:var(--red);color:#fff}
+@keyframes slideIn{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">⚡ FlowBuilder AI</div>
+  <input class="project-name" value="My Workflow" id="projectName">
+  <div class="sep"></div>
+  <button onclick="undo()">↩ Undo</button>
+  <button onclick="redo()">↪ Redo</button>
+  <div class="sep"></div>
+  <button onclick="saveProject()">💾 Save</button>
+  <button onclick="loadProject()">📂 Load</button>
+  <button class="export" onclick="exportAsZip()">📦 Export ZIP</button>
+  <div class="spacer"></div>
+  <div class="stats"><span id="blockCount">0 blocks</span><span id="connCount">0 connections</span></div>
+  <button class="primary" onclick="runWorkflow()">▶ Run</button>
+</div>
+<div class="main">
+  <div class="sidebar-left">
+    <div class="search-box"><input placeholder="Search 50+ blocks..." id="blockSearch" oninput="filterBlocks()"></div>
+    <div class="block-list" id="blockList"></div>
+  </div>
+  <div class="canvas-container" id="canvasContainer">
+    <div class="canvas-bg" id="canvasBg"></div>
+    <svg id="mainSvg"></svg>
+    <div class="canvas-blocks" id="canvasBlocks"></div>
+    <div class="zoom-controls"><button onclick="zoomIn()">+</button><span id="zoomLevel">100%</span><button onclick="zoomOut()">−</button><button onclick="zoomReset()">⊡</button></div>
+    <div class="nav-controls"><button onclick="panLeft()">◀</button><button onclick="panRight()">▶</button><button onclick="panUp()">▲</button><button onclick="panDown()">▼</button><button onclick="centerAll()">⦿</button></div>
+    <div class="minimap" id="minimap"><canvas id="minimapCanvas"></canvas></div>
+  </div>
+  <div class="sidebar-right">
+    <div class="sidebar-tabs"><button class="active" onclick="switchTab('props')">📋 Properties</button><button onclick="switchTab('ai')">🤖 AI</button></div>
+    <div class="tab-content" id="tabProps"><div class="no-selection" id="noSelection"><div class="icon">🎯</div><p>Select a block to edit</p></div><div id="propsContent" style="display:none"></div></div>
+    <div class="tab-content hidden" id="tabAI"><div class="chat-messages" id="chatMessages"><div class="chat-msg ai">👋 I'm your AI assistant. Describe what you want to build:<div class="suggestion-chips"><span class="chip" onclick="aiSuggest('Create a website with hero section and contact form')">🌐 Website</span><span class="chip" onclick="aiSuggest('Call to phone number')">📞 Voice call</span><span class="chip" onclick="aiSuggest('Email automation')">📧 Email</span></div></div></div><div class="chat-input-area"><input placeholder="Describe your workflow..." id="chatInput" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Send</button></div></div>
+  </div>
+</div>
+<div class="bottombar"><span>⚡ Full version · Export to ZIP with Python runner</span><div class="sep"></div><span class="log" id="logOutput">Ready</span></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
-const CATEGORIES=[{id:'msg',name:'Сообщения',color:'#22c55e',icon:'💬',blocks:[{id:'email_send',name:'Отправить Email',icon:'📧',desc:'Отправляет письмо',ports:{in:1,out:1},fields:[{name:'to',label:'Кому',type:'text'},{name:'subject',label:'Тема',type:'text'},{name:'body',label:'Текст',type:'textarea'}]},{id:'call',name:'Звонок',icon:'📞',desc:'Позвонить',ports:{in:1,out:1},fields:[{name:'phone',label:'Номер +7...',type:'text'},{name:'message',label:'Текст',type:'textarea'}]}]},{id:'logic',name:'Логика',color:'#f97316',icon:'⚡',blocks:[{id:'if_else',name:'Если/Иначе',icon:'🔀',desc:'Разветвление',ports:{in:1,out:2},fields:[{name:'condition',label:'Условие',type:'text'}]},{id:'delay',name:'Задержка',icon:'⏱️',desc:'Пауза',ports:{in:1,out:1},fields:[{name:'ms',label:'Мс',type:'number'}]}]},{id:'api',name:'API',color:'#f59e0b',icon:'🌐',blocks:[{id:'http_req',name:'HTTP Запрос',icon:'📡',desc:'Запрос',ports:{in:1,out:1},fields:[{name:'url',label:'URL',type:'text'}]}]}];
-const CONNECTORS=[{id:'hf',name:'HuggingFace',icon:'🤗',group:'free',desc:'Бесплатно',url:'https://huggingface.co',connected:true,apiKey:'',test:async()=>true},{id:'groq',name:'Groq',icon:'⚡',group:'free',desc:'Бесплатный tier',url:'https://console.groq.com/keys',connected:false,apiKey:'',test:async(k)=>{try{const r=await fetch('https://api.groq.com/openai/v1/models',{headers:{'Authorization':'Bearer '+k}});return r.ok;}catch{return false;}}},{id:'openai',name:'OpenAI',icon:'🟢',group:'paid',desc:'GPT-4',url:'https://platform.openai.com/api-keys',connected:false,apiKey:'',test:async(k)=>{try{const r=await fetch('https://api.openai.com/v1/models',{headers:{'Authorization':'Bearer '+k}});return r.ok;}catch{return false;}}}];
-let selectedModel='hf';let blocks=[],connections=[],selectedBlocks=new Set();let dragBlock=null,dragOffset={x:0,y:0},pan={x:0,y:0},zoom=1,isPanning=0,panStart={x:0,y:0},connecting=null;let undoStack=[],redoStack=[],nextId=1;
-function loadConnectors(){try{const d=JSON.parse(localStorage.getItem('fb_connectors')||'null');if(d){d.forEach(s=>{const c=CONNECTORS.find(x=>x.id===s.id);if(c){c.connected=s.connected;c.apiKey=s.apiKey||'';}});}}catch{}const sel=localStorage.getItem('fb_selectedModel');if(sel)selectedModel=sel;}function saveConnectors(){localStorage.setItem('fb_connectors',JSON.stringify(CONNECTORS.map(c=>({id:c.id,connected:c.connected,apiKey:c.apiKey||''}))));localStorage.setItem('fb_selectedModel',selectedModel);}loadConnectors();
-function renderConnectorsList(){const d=document.getElementById('connectorsList');if(!d)return;d.innerHTML=CONNECTORS.map(c=>`<div class="connector-card"><div class="icon">${c.icon}</div><div class="info"><div class="name">${c.name}</div><div class="desc">${c.desc}</div></div><div class="status ${c.connected?'on':'off'}">${c.connected?'✓':'✗'}</div>${c.connected?`<button onclick="disconnectConn('${c.id}')">Откл</button>`:`<button onclick="openConnModal('${c.id}')">Connect</button>`}</div>`).join('');}
-function renderModelDropdown(){const dd=document.getElementById('modelDropdown');if(!dd)return;const connected=CONNECTORS.filter(c=>c.connected);dd.innerHTML=connected.map(c=>`<div class="model-item ${selectedModel===c.id?'active':''}" onclick="selectModel('${c.id}')">${c.icon} ${c.name}</div>`).join('');}
-function toggleModelDropdown(){const dd=document.getElementById('modelDropdown');dd.classList.toggle('show');renderModelDropdown();}
-function selectModel(id){selectedModel=id;saveConnectors();const c=CONNECTORS.find(x=>x.id===id);document.getElementById('modelBtn').textContent=`🤖 ${c.name}`;document.getElementById('modelDropdown').classList.remove('show');toast(`Модель: ${c.name}`,'success');}
-function disconnectConn(id){const c=CONNECTORS.find(x=>x.id===id);if(c){c.connected=false;c.apiKey='';saveConnectors();renderConnectorsList();renderModelDropdown();toast(`${c.name} отключен`,'info');}}
-function openConnModal(id){const c=CONNECTORS.find(x=>x.id===id);if(!c)return;const ov=document.createElement('div');ov.className='modal';ov.innerHTML=`<div class="modal-content"><h3>🔌 ${c.name}</h3><p>Введите API ключ</p><input id="connKey" type="password" placeholder="sk-..."><div id="connTest"></div><button onclick="testAndSave('${id}')">Проверить и сохранить</button><button onclick="closeModal()">Отмена</button></div>`;document.body.appendChild(ov);}
-async function testAndSave(id){const c=CONNECTORS.find(x=>x.id===id);const key=document.getElementById('connKey').value.trim();const testDiv=document.getElementById('connTest');testDiv.innerHTML='⏳ Проверка...';try{const ok=await c.test(key);if(ok){c.apiKey=key;c.connected=true;saveConnectors();renderConnectorsList();renderModelDropdown();closeModal();toast(`${c.name} подключен`,'success');}else{testDiv.innerHTML='❌ Неверный ключ';}}catch(e){testDiv.innerHTML='❌ Ошибка';}}
-function closeModal(){const m=document.querySelector('.modal');if(m)m.remove();}
-function toast(msg,type){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),2500);}
-function renderBlockList(){const list=document.getElementById('blockList');list.innerHTML='';CATEGORIES.forEach(cat=>{const hdr=document.createElement('div');hdr.className='category-header';hdr.innerHTML=`<span>${cat.icon} ${cat.name}</span><span class="arrow">▼</span>`;hdr.onclick=()=>{hdr.classList.toggle('collapsed');items.classList.toggle('hidden');};list.appendChild(hdr);const items=document.createElement('div');items.className='category-items';cat.blocks.forEach(b=>{const it=document.createElement('div');it.className='block-item';it.draggable=true;it.innerHTML=`<div class="icon" style="background:${cat.color}22;color:${cat.color}">${b.icon}</div><span class="name">${b.name}</span>`;it.addEventListener('dragstart',e=>e.dataTransfer.setData('block',JSON.stringify({...b,category:cat.id,catColor:cat.color})));items.appendChild(it);});list.appendChild(items);});}
-function addBlockToCanvas(def,x,y){saveState();const block={id:'b_'+(nextId++),type:def.id,name:def.name,icon:def.icon,desc:def.desc,category:def.category,catColor:def.catColor,x:Math.round(x/12)*12,y:Math.round(y/12)*12,ports:def.ports,config:{},width:180,height:70};blocks.push(block);renderBlocks();updateStats();toast(`Added ${block.name}`,'success');}
-function renderBlocks(){const cont=document.getElementById('canvasBlocks');cont.innerHTML='';blocks.forEach(b=>{const el=document.createElement('div');el.className='block'+(selectedBlocks.has(b.id)?' selected':'');el.dataset.id=b.id;el.style.left=b.x+'px';el.style.top=b.y+'px';el.style.width=b.width+'px';el.innerHTML=`<div class="block-header"><div class="icon" style="background:${b.catColor}22;color:${b.catColor}">${b.icon}</div><span class="title">${b.name}</span><span class="delete" onclick="event.stopPropagation();deleteBlock('${b.id}')">✕</span></div><div class="block-body">${b.desc}</div>`;for(let i=0;i<b.ports.in;i++){let p=document.createElement('div');p.className='port input';p.style.top=(30+i*20)+'px';p.addEventListener('mousedown',e=>{e.stopPropagation();startConnection(b.id,'input',i,e);});el.appendChild(p);}for(let i=0;i<b.ports.out;i++){let p=document.createElement('div');p.className='port output';p.style.top=(30+i*20)+'px';p.addEventListener('mousedown',e=>{e.stopPropagation();startConnection(b.id,'output',i,e);});el.appendChild(p);}el.addEventListener('mousedown',e=>{if(e.target.classList.contains('port')||e.target.classList.contains('delete'))return;e.stopPropagation();if(!e.shiftKey&&!selectedBlocks.has(b.id))clearSelection();selectedBlocks.add(b.id);dragBlock=b.id;const rect=el.getBoundingClientRect(),cr=document.getElementById('canvasContainer').getBoundingClientRect();dragOffset={x:(e.clientX-cr.left-pan.x)/zoom-b.x,y:(e.clientY-cr.top-pan.y)/zoom-b.y};renderBlocks();updateProps();});cont.appendChild(el);});renderConnections();updateMinimap();}
-function deleteBlock(id){saveState();blocks=blocks.filter(b=>b.id!==id);connections=connections.filter(c=>c.from!==id&&c.to!==id);selectedBlocks.delete(id);renderBlocks();updateStats();toast('Deleted','info');}
-function clearSelection(){selectedBlocks.clear();renderBlocks();}
-function startConnection(blockId,portType,portIndex,e){const b=blocks.find(b=>b.id===blockId);if(!b)return;let sx=portType==='output'?b.x+b.width:b.x;let sy=b.y+30+portIndex*20;connecting={blockId,portType,portIndex,startX:sx,startY:sy};e.preventDefault();}
-function finishConnection(e){if(!connecting)return;const rect=document.getElementById('canvasContainer').getBoundingClientRect();const mx=(e.clientX-rect.left-pan.x)/zoom;const my=(e.clientY-rect.top-pan.y)/zoom;let best=null,bestDist=30;blocks.forEach(b=>{if(b.id===connecting.blockId)return;const ttype=connecting.portType==='output'?'input':'output';const cnt=ttype==='input'?b.ports.in:b.ports.out;for(let i=0;i<cnt;i++){const px=ttype==='input'?b.x:b.x+b.width;const py=b.y+30+i*20;const d=Math.hypot(mx-px,my-py);if(d<bestDist){bestDist=d;best={blockId:b.id,portType:ttype,portIndex:i};}}});if(best){saveState();const conn=connecting.portType==='output'?{from:connecting.blockId,fromPort:connecting.portIndex,to:best.blockId,toPort:best.portIndex}:{from:best.blockId,fromPort:best.portIndex,to:connecting.blockId,toPort:connecting.portIndex};if(!connections.find(c=>c.from===conn.from&&c.fromPort===conn.fromPort&&c.to===conn.to&&c.toPort===conn.toPort)){connections.push(conn);renderConnections();updateStats();toast('Connected','success');}}connecting=null;removeTempConnection();}
-function renderConnections(){const svg=document.getElementById('mainSvg');svg.innerHTML='';connections.forEach(conn=>{const fb=blocks.find(b=>b.id===conn.from);const tb=blocks.find(b=>b.id===conn.to);if(!fb||!tb)return;const x1=fb.x+fb.width,y1=fb.y+30+conn.fromPort*20;const x2=tb.x,y2=tb.y+30+conn.toPort*20;const dx=Math.abs(x2-x1)*0.5;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);path.setAttribute('stroke','var(--accent)');path.setAttribute('stroke-width','2');path.setAttribute('fill','none');svg.appendChild(path);});}
-function updateTempConnection(mx,my){const svg=document.getElementById('mainSvg');let temp=svg.querySelector('.temp-conn');if(!temp){temp=document.createElementNS('http://www.w3.org/2000/svg','path');temp.classList.add('temp-conn');temp.setAttribute('stroke','var(--accent)');temp.setAttribute('stroke-dasharray','6,4');temp.setAttribute('fill','none');svg.appendChild(temp);}if(!connecting)return;const ex=(mx-pan.x)/zoom,ey=(my-pan.y)/zoom;const dx=Math.abs(ex-connecting.startX)*0.5;temp.setAttribute('d',`M${connecting.startX},${connecting.startY} C${connecting.startX+dx},${connecting.startY} ${ex-dx},${ey} ${ex},${ey}`);}
-function removeTempConnection(){const t=document.getElementById('mainSvg').querySelector('.temp-conn');if(t)t.remove();}
-function setupCanvasEvents(){const c=document.getElementById('canvasContainer');c.addEventListener('dragover',e=>e.preventDefault());c.addEventListener('drop',e=>{e.preventDefault();const d=e.dataTransfer.getData('block');if(!d)return;const def=JSON.parse(d);const rect=c.getBoundingClientRect();const x=(e.clientX-rect.left-pan.x)/zoom;const y=(e.clientY-rect.top-pan.y)/zoom;addBlockToCanvas(def,x,y);});c.addEventListener('mousedown',e=>{if(e.target===c||e.target.id==='canvasBg'){if(e.button===1||e.shiftKey){isPanning=1;panStart={x:e.clientX-pan.x,y:e.clientY-pan.y};c.style.cursor='grabbing';}else if(e.button===0)clearSelection();}});c.addEventListener('mousemove',e=>{const rect=c.getBoundingClientRect();if(isPanning){pan.x=e.clientX-panStart.x;pan.y=e.clientY-panStart.y;updateCanvasTransform();}if(connecting)updateTempConnection(e.clientX-rect.left,e.clientY-rect.top);if(dragBlock){const x=(e.clientX-rect.left-pan.x)/zoom-dragOffset.x;const y=(e.clientY-rect.top-pan.y)/zoom-dragOffset.y;const bl=blocks.find(b=>b.id===dragBlock);if(bl){bl.x=Math.round(x/12)*12;bl.y=Math.round(y/12)*12;renderBlocks();}}});c.addEventListener('mouseup',e=>{if(isPanning){isPanning=0;c.style.cursor='';}if(connecting){finishConnection(e);connecting=null;}if(dragBlock){saveState();dragBlock=null;}});c.addEventListener('wheel',e=>{e.preventDefault();const rect=c.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;const old=zoom;zoom*=e.deltaY<0?1.1:0.9;zoom=Math.max(0.2,Math.min(3,zoom));pan.x=mx-(mx-pan.x)*(zoom/old);pan.y=my-(my-pan.y)*(zoom/old);updateCanvasTransform();},{passive:false});}
-function updateCanvasTransform(){const t=`translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;document.getElementById('canvasBlocks').style.transform=t;document.getElementById('canvasBlocks').style.transformOrigin='0 0';document.getElementById('mainSvg').style.transform=t;document.getElementById('mainSvg').style.transformOrigin='0 0';document.getElementById('canvasBg').style.backgroundSize=`${24*zoom}px ${24*zoom}px`;document.getElementById('canvasBg').style.backgroundPosition=`${pan.x}px ${pan.y}px`;updateMinimap();}
-function updateMinimap(){const cv=document.getElementById('minimapCanvas');if(!cv)return;cv.width=160;cv.height=100;const ctx=cv.getContext('2d');ctx.fillStyle='#0a0a0f';ctx.fillRect(0,0,160,100);if(!blocks.length)return;let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;blocks.forEach(b=>{minX=Math.min(minX,b.x);minY=Math.min(minY,b.y);maxX=Math.max(maxX,b.x+b.width);maxY=Math.max(maxY,b.y+b.height);});const pad=50,w=maxX-minX+pad*2||1,h=maxY-minY+pad*2||1,scale=Math.min(160/w,100/h),ox=(160-w*scale)/2,oy=(100-h*scale)/2;blocks.forEach(b=>{ctx.fillStyle=selectedBlocks.has(b.id)?'#6366f1':'#2a2a4a';ctx.fillRect(ox+(b.x-minX+pad)*scale,oy+(b.y-minY+pad)*scale,b.width*scale,b.height*scale);});}
-function updateProps(){const no=document.getElementById('noSelection'),cont=document.getElementById('propsContent');if(selectedBlocks.size===0){no.style.display='';cont.style.display='none';return;}no.style.display='none';cont.style.display='';const b=blocks.find(b=>b.id===[...selectedBlocks][0]);if(!b)return;cont.innerHTML=`<div class="prop-group"><label>Название</label><input value="${b.name}" onchange="blocks.find(x=>x.id==='${b.id}').name=this.value;renderBlocks()"></div>${b.fields?b.fields.map(f=>`<div class="prop-group"><label>${f.label}</label>${f.type==='textarea'?`<textarea onchange="blocks.find(x=>x.id==='${b.id}').config.${f.name}=this.value">${b.config[f.name]||''}</textarea>`:`<input value="${b.config[f.name]||''}" onchange="blocks.find(x=>x.id==='${b.id}').config.${f.name}=this.value">`}</div>`).join(''):''}`;}
-function runWorkflow(){if(!blocks.length){toast('Add blocks','error');return;}toast('Workflow started','info');}
-function sendChat(){const inp=document.getElementById('chatInput');const msg=inp.value.trim();if(!msg)return;inp.value='';addChatMsg(msg,'user');processAI(msg);}
-function aiSuggest(txt){addChatMsg(txt,'user');processAI(txt);}
-function addChatMsg(txt,role){const c=document.getElementById('chatMessages');const d=document.createElement('div');d.className=`chat-msg ${role}`;d.textContent=txt;c.appendChild(d);c.scrollTop=c.scrollHeight;}
-async function processAI(msg){const lower=msg.toLowerCase();if(lower.includes('email')){saveState();const def=CATEGORIES.find(c=>c.id==='msg').blocks.find(b=>b.id==='email_send');addBlockToCanvas({...def,category:'msg',catColor:'#22c55e'},200,150);addChatMsg('✅ Добавил блок "Отправить Email"','ai');}else if(lower.includes('звонок')||lower.includes('call')){saveState();const def=CATEGORIES.find(c=>c.id==='msg').blocks.find(b=>b.id==='call');addBlockToCanvas({...def,category:'msg',catColor:'#22c55e'},200,150);addChatMsg('✅ Добавил блок "Звонок"','ai');}else if(lower.includes('задержка')){saveState();const def=CATEGORIES.find(c=>c.id==='logic').blocks.find(b=>b.id==='delay');addBlockToCanvas({...def,category:'logic',catColor:'#f97316'},200,150);addChatMsg('✅ Добавил блок "Задержка"','ai');}else if(lower.includes('http')){saveState();const def=CATEGORIES.find(c=>c.id==='api').blocks.find(b=>b.id==='http_req');addBlockToCanvas({...def,category:'api',catColor:'#f59e0b'},200,150);addChatMsg('✅ Добавил блок "HTTP Запрос"','ai');}else{addChatMsg('Я умею: email, звонок, задержка, HTTP запрос. Просто опишите что нужно.','ai');}}
-function saveState(){undoStack.push(JSON.stringify({blocks,connections,nextId}));if(undoStack.length>50)undoStack.shift();redoStack=[];}
-function undo(){if(!undoStack.length)return;redoStack.push(JSON.stringify({blocks,connections,nextId}));const s=JSON.parse(undoStack.pop());blocks=s.blocks;connections=s.connections;nextId=s.nextId;selectedBlocks.clear();renderBlocks();updateStats();toast('Undo','info');}
-function redo(){if(!redoStack.length)return;undoStack.push(JSON.stringify({blocks,connections,nextId}));const s=JSON.parse(redoStack.pop());blocks=s.blocks;connections=s.connections;nextId=s.nextId;selectedBlocks.clear();renderBlocks();updateStats();toast('Redo','info');}
-function saveProject(){localStorage.setItem('flowbuilder',JSON.stringify({name:document.getElementById('projectName').value,blocks,connections,nextId}));toast('Saved','success');}
-function filterBlocks(){const q=document.getElementById('blockSearch').value.toLowerCase();document.querySelectorAll('.category-items').forEach(i=>{i.querySelectorAll('.block-item').forEach(b=>{b.style.display=b.querySelector('.name').textContent.toLowerCase().includes(q)?'':'none';});});}
-function updateStats(){document.getElementById('blockCount').textContent=blocks.length+' blocks';document.getElementById('connCount').textContent=connections.length+' connections';}
-function switchTab(tab){document.querySelectorAll('.sidebar-tabs button').forEach(b=>b.classList.remove('active'));document.getElementById('tabProps').classList.add('hidden');document.getElementById('tabAI').classList.add('hidden');if(tab==='props'){document.querySelector('.sidebar-tabs button:first-child').classList.add('active');document.getElementById('tabProps').classList.remove('hidden');}else{document.querySelector('.sidebar-tabs button:last-child').classList.add('active');document.getElementById('tabAI').classList.remove('hidden');}}
-window.onload=()=>{renderBlockList();setupCanvasEvents();updateStats();updateCanvasTransform();const demo={id:'email_send',name:'Отправить Email',icon:'📧',desc:'Отправляет письмо',ports:{in:1,out:1},fields:[{name:'to',label:'Кому',type:'text'}]};addBlockToCanvas({...demo,category:'msg',catColor:'#22c55e'},200,150);renderConnectorsList();selectModel('hf');document.addEventListener('click',e=>{if(!e.target.closest('.model-selector'))document.getElementById('modelDropdown')?.classList.remove('show');});};
-</script></body></html>
+// ==================== БЛОКИ ====================
+const CATEGORIES = [
+  {id:'ai',name:'🤖 AI',color:'#8b5cf6',icon:'🧠',blocks:[
+    {id:'text_gen',name:'Text Generation',icon:'📝',desc:'Generate text with AI',ports:{in:1,out:1}},
+    {id:'mistral_chat',name:'Mistral Chat',icon:'🐙',desc:'Chat with Mistral AI',ports:{in:1,out:1}},
+    {id:'tts',name:'Text to Speech',icon:'🔊',desc:'Convert text to speech',ports:{in:1,out:1}}
+  ]},
+  {id:'msg',name:'💬 Messaging',color:'#22c55e',icon:'💬',blocks:[
+    {id:'email_send',name:'Email Send',icon:'📧',desc:'Send email',ports:{in:1,out:1}},
+    {id:'slack',name:'Slack',icon:'💜',desc:'Send Slack message',ports:{in:1,out:1}},
+    {id:'call',name:'Voice Call',icon:'📞',desc:'Make phone call',ports:{in:1,out:1}}
+  ]},
+  {id:'logic',name:'⚡ Logic',color:'#f97316',icon:'⚡',blocks:[
+    {id:'if_else',name:'If/Else',icon:'🔀',desc:'Conditional branch',ports:{in:1,out:2}},
+    {id:'delay',name:'Delay',icon:'⏱️',desc:'Wait milliseconds',ports:{in:1,out:1}},
+    {id:'http_req',name:'HTTP Request',icon:'🌐',desc:'Make HTTP request',ports:{in:1,out:1}}
+  ]},
+  {id:'site',name:'🌐 Website',color:'#06b6d4',icon:'🌐',blocks:[
+    {id:'site_main',name:'Site Root',icon:'🏠',desc:'Main website container',ports:{in:0,out:1}},
+    {id:'site_menu',name:'Menu',icon:'☰',desc:'Navigation menu',ports:{in:1,out:1}},
+    {id:'site_hero',name:'Hero Section',icon:'🌟',desc:'Hero banner',ports:{in:1,out:1}},
+    {id:'site_section',name:'Section',icon:'📄',desc:'Content section',ports:{in:1,out:1}},
+    {id:'site_form',name:'Contact Form',icon:'📋',desc:'Contact form',ports:{in:1,out:1}},
+    {id:'site_footer',name:'Footer',icon:'🔻',desc:'Page footer',ports:{in:1,out:0}}
+  ]}
+];
+
+// ==================== СОСТОЯНИЕ ====================
+let blocks = [];
+let connections = [];
+let selectedBlocks = new Set();
+let dragBlock = null;
+let dragOffset = {x:0, y:0};
+let pan = {x:0, y:0};
+let zoom = 1;
+let isPanning = false;
+let panStart = {x:0, y:0};
+let connecting = null;
+let undoStack = [], redoStack = [];
+let nextId = 1;
+
+window.onload = () => {
+  renderBlockList();
+  setupCanvasEvents();
+  updateStats();
+  updateCanvasTransform();
+  log('Ready — drag blocks from left panel');
+};
+
+function renderBlockList() {
+  const list = document.getElementById('blockList');
+  list.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const hdr = document.createElement('div');
+    hdr.className = 'category-header';
+    hdr.innerHTML = `<span>${cat.icon} ${cat.name} (${cat.blocks.length})</span><span class="arrow">▼</span>`;
+    hdr.onclick = () => { hdr.classList.toggle('collapsed'); items.classList.toggle('hidden'); };
+    list.appendChild(hdr);
+    const items = document.createElement('div');
+    items.className = 'category-items';
+    cat.blocks.forEach(b => {
+      const item = document.createElement('div');
+      item.className = 'block-item';
+      item.draggable = true;
+      item.innerHTML = `<div class="icon" style="background:${cat.color}22;color:${cat.color}">${b.icon}</div><span class="name">${b.name}</span>`;
+      item.addEventListener('dragstart', e => e.dataTransfer.setData('block', JSON.stringify({...b, category:cat.id, catColor:cat.color})));
+      item.addEventListener('dblclick', () => addBlockToCanvas({...b, category:cat.id, catColor:cat.color}, 300 + Math.random()*100 - pan.x/zoom, 200 + Math.random()*100 - pan.y/zoom));
+      items.appendChild(item);
+    });
+    list.appendChild(items);
+  });
+}
+
+function addBlockToCanvas(def, x, y) {
+  saveState();
+  const block = {
+    id: 'b_' + (nextId++), type: def.id, name: def.name, icon: def.icon, desc: def.desc,
+    category: def.category, catColor: def.catColor, x: Math.round(x/12)*12, y: Math.round(y/12)*12,
+    ports: def.ports, config: {}, width: 180, height: 70
+  };
+  blocks.push(block);
+  renderBlocks();
+  updateStats();
+  toast(`Added ${block.name}`, 'success');
+  return block;
+}
+
+function renderBlocks() {
+  const container = document.getElementById('canvasBlocks');
+  container.innerHTML = '';
+  blocks.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'block' + (selectedBlocks.has(b.id) ? ' selected' : '');
+    el.dataset.id = b.id;
+    el.style.left = b.x + 'px';
+    el.style.top = b.y + 'px';
+    el.style.width = b.width + 'px';
+    el.innerHTML = `<div class="block-header" style="background:${b.catColor}11"><div class="icon" style="background:${b.catColor}22;color:${b.catColor}">${b.icon}</div><span class="title">${b.name}</span><span class="delete" onclick="event.stopPropagation();deleteBlock('${b.id}')">✕</span></div><div class="block-body">${b.desc}</div>`;
+    for(let i=0; i<b.ports.in; i++) { let p=document.createElement('div'); p.className='port input'; p.style.top=(30+i*20)+'px'; p.addEventListener('mousedown',e=>{e.stopPropagation();startConnection(b.id,'input',i,e);}); el.appendChild(p); }
+    for(let i=0; i<b.ports.out; i++) { let p=document.createElement('div'); p.className='port output'; p.style.top=(30+i*20)+'px'; p.addEventListener('mousedown',e=>{e.stopPropagation();startConnection(b.id,'output',i,e);}); el.appendChild(p); }
+    el.addEventListener('mousedown', e => {
+      if(e.target.classList.contains('port')) return;
+      e.stopPropagation();
+      if(!e.shiftKey && !selectedBlocks.has(b.id)) clearSelection();
+      selectedBlocks.add(b.id);
+      dragBlock = b.id;
+      const rect = el.getBoundingClientRect(), cr = document.getElementById('canvasContainer').getBoundingClientRect();
+      dragOffset = { x: (e.clientX - cr.left - pan.x)/zoom - b.x, y: (e.clientY - cr.top - pan.y)/zoom - b.y };
+      renderBlocks();
+      updateProps();
+    });
+    container.appendChild(el);
+  });
+  renderConnections();
+  updateMinimap();
+}
+
+function deleteBlock(id) {
+  saveState();
+  blocks = blocks.filter(b => b.id !== id);
+  connections = connections.filter(c => c.from !== id && c.to !== id);
+  selectedBlocks.delete(id);
+  renderBlocks();
+  updateStats();
+  toast('Block deleted', 'info');
+}
+
+function clearSelection() { selectedBlocks.clear(); renderBlocks(); }
+
+function startConnection(blockId, portType, portIndex, e) {
+  const block = blocks.find(b => b.id === blockId);
+  if(!block) return;
+  let sx = portType === 'output' ? block.x + block.width : block.x;
+  let sy = block.y + 30 + portIndex * 20;
+  connecting = { blockId, portType, portIndex, startX: sx, startY: sy };
+}
+
+function finishConnection(e) {
+  if(!connecting) return;
+  const rect = document.getElementById('canvasContainer').getBoundingClientRect();
+  const mx = (e.clientX - rect.left - pan.x)/zoom;
+  const my = (e.clientY - rect.top - pan.y)/zoom;
+  let best = null, bestDist = 30;
+  blocks.forEach(b => {
+    if(b.id === connecting.blockId) return;
+    const targetType = connecting.portType === 'output' ? 'input' : 'output';
+    const count = targetType === 'input' ? b.ports.in : b.ports.out;
+    for(let i=0; i<count; i++) {
+      const px = targetType === 'input' ? b.x : b.x + b.width;
+      const py = b.y + 30 + i*20;
+      const d = Math.hypot(mx-px, my-py);
+      if(d < bestDist) { bestDist = d; best = {blockId:b.id, portType:targetType, portIndex:i}; }
+    }
+  });
+  if(best) {
+    saveState();
+    const conn = connecting.portType === 'output' ? {from:connecting.blockId, fromPort:connecting.portIndex, to:best.blockId, toPort:best.portIndex} : {from:best.blockId, fromPort:best.portIndex, to:connecting.blockId, toPort:connecting.portIndex};
+    if(!connections.find(c => c.from===conn.from && c.fromPort===conn.fromPort && c.to===conn.to && c.toPort===conn.toPort)) {
+      connections.push(conn);
+      renderConnections();
+      updateStats();
+      toast('Connected', 'success');
+    }
+  }
+  connecting = null;
+  removeTempConnection();
+}
+
+function renderConnections() {
+  const svg = document.getElementById('mainSvg');
+  svg.innerHTML = '';
+  connections.forEach(conn => {
+    const fromBlock = blocks.find(b => b.id === conn.from);
+    const toBlock = blocks.find(b => b.id === conn.to);
+    if(!fromBlock || !toBlock) return;
+    const x1 = fromBlock.x + fromBlock.width, y1 = fromBlock.y + 30 + conn.fromPort*20;
+    const x2 = toBlock.x, y2 = toBlock.y + 30 + conn.toPort*20;
+    const dx = Math.abs(x2-x1)*0.5;
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`);
+    path.setAttribute('stroke', 'var(--accent)');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+  });
+}
+
+function removeTempConnection() {
+  const temp = document.getElementById('mainSvg').querySelector('.temp-conn');
+  if(temp) temp.remove();
+}
+
+function setupCanvasEvents() {
+  const container = document.getElementById('canvasContainer');
+  container.addEventListener('dragover', e => e.preventDefault());
+  container.addEventListener('drop', e => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('block');
+    if(!data) return;
+    const def = JSON.parse(data);
+    const rect = container.getBoundingClientRect();
+    const x = (e.clientX - rect.left - pan.x)/zoom;
+    const y = (e.clientY - rect.top - pan.y)/zoom;
+    addBlockToCanvas(def, x, y);
+  });
+  container.addEventListener('mousedown', e => {
+    if(e.target === container || e.target.id === 'canvasBg') {
+      if(e.button === 1 || e.shiftKey) {
+        isPanning = true;
+        panStart = {x: e.clientX - pan.x, y: e.clientY - pan.y};
+        container.classList.add('panning');
+      } else if(e.button === 0) clearSelection();
+    }
+  });
+  container.addEventListener('mousemove', e => {
+    if(isPanning) { pan.x = e.clientX - panStart.x; pan.y = e.clientY - panStart.y; updateCanvasTransform(); }
+    if(connecting) updateTempConnection(e);
+    if(dragBlock) {
+      const rect = container.getBoundingClientRect();
+      const x = (e.clientX - rect.left - pan.x)/zoom - dragOffset.x;
+      const y = (e.clientY - rect.top - pan.y)/zoom - dragOffset.y;
+      const block = blocks.find(b => b.id === dragBlock);
+      if(block) { block.x = Math.round(x/12)*12; block.y = Math.round(y/12)*12; renderBlocks(); }
+    }
+  });
+  container.addEventListener('mouseup', e => {
+    if(isPanning) { isPanning = false; container.classList.remove('panning'); }
+    if(connecting) { finishConnection(e); connecting = null; }
+    if(dragBlock) { saveState(); dragBlock = null; }
+  });
+  container.addEventListener('wheel', e => {
+    e.preventDefault();
+    const rect = container.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const oldZoom = zoom;
+    zoom *= e.deltaY < 0 ? 1.1 : 0.9;
+    zoom = Math.max(0.2, Math.min(3, zoom));
+    pan.x = mx - (mx - pan.x) * (zoom/oldZoom);
+    pan.y = my - (my - pan.y) * (zoom/oldZoom);
+    updateCanvasTransform();
+    document.getElementById('zoomLevel').textContent = Math.round(zoom*100)+'%';
+  }, {passive:false});
+}
+
+function updateCanvasTransform() {
+  const t = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+  document.getElementById('canvasBlocks').style.transform = t;
+  document.getElementById('mainSvg').style.transform = t;
+  document.getElementById('canvasBg').style.backgroundSize = `${24*zoom}px ${24*zoom}px`;
+  document.getElementById('canvasBg').style.backgroundPosition = `${pan.x}px ${pan.y}px`;
+  updateMinimap();
+}
+
+function updateTempConnection(e) {
+  const svg = document.getElementById('mainSvg');
+  let temp = svg.querySelector('.temp-conn');
+  if(!temp) { temp = document.createElementNS('http://www.w3.org/2000/svg', 'path'); temp.classList.add('temp-conn'); temp.setAttribute('stroke', 'var(--accent)'); temp.setAttribute('stroke-dasharray', '6,4'); temp.setAttribute('fill', 'none'); svg.appendChild(temp); }
+  const rect = document.getElementById('canvasContainer').getBoundingClientRect();
+  const ex = (e.clientX - rect.left - pan.x)/zoom, ey = (e.clientY - rect.top - pan.y)/zoom;
+  const dx = Math.abs(ex - connecting.startX)*0.5;
+  temp.setAttribute('d', `M${connecting.startX},${connecting.startY} C${connecting.startX+dx},${connecting.startY} ${ex-dx},${ey} ${ex},${ey}`);
+}
+
+function zoomIn() { zoom = Math.min(3, zoom*1.2); updateCanvasTransform(); document.getElementById('zoomLevel').textContent = Math.round(zoom*100)+'%'; }
+function zoomOut() { zoom = Math.max(0.2, zoom/1.2); updateCanvasTransform(); document.getElementById('zoomLevel').textContent = Math.round(zoom*100)+'%'; }
+function zoomReset() { zoom = 1; pan = {x:0, y:0}; updateCanvasTransform(); document.getElementById('zoomLevel').textContent = '100%'; }
+function panLeft() { pan.x += 50; updateCanvasTransform(); }
+function panRight() { pan.x -= 50; updateCanvasTransform(); }
+function panUp() { pan.y += 50; updateCanvasTransform(); }
+function panDown() { pan.y -= 50; updateCanvasTransform(); }
+function centerAll() {
+  if(blocks.length === 0) return;
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  blocks.forEach(b => { minX = Math.min(minX, b.x); minY = Math.min(minY, b.y); maxX = Math.max(maxX, b.x+b.width); maxY = Math.max(maxY, b.y+b.height); });
+  const cx = (minX+maxX)/2, cy = (minY+maxY)/2;
+  const rect = document.getElementById('canvasContainer').getBoundingClientRect();
+  pan.x = rect.width/2 - cx*zoom;
+  pan.y = rect.height/2 - cy*zoom;
+  updateCanvasTransform();
+}
+
+// ==================== ЗАПУСК ====================
+function runWorkflow() {
+  if(blocks.length === 0) { toast('Add blocks first', 'error'); return; }
+  const siteBlock = blocks.find(b => b.type === 'site_main');
+  if(siteBlock) generateSite();
+  else if(blocks.find(b => b.type === 'call')) makeCall();
+  else toast('Workflow started!', 'info');
+  log('Workflow executed');
+}
+
+function generateSite() {
+  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Generated Site</title><style>body{font-family:sans-serif;margin:0;padding:0}</style></head><body>`;
+  blocks.forEach(b => {
+    if(b.type === 'site_menu') html += `<nav style="background:#333;color:#fff;padding:10px;">${b.config.items || 'Home | About'}</nav>`;
+    if(b.type === 'site_hero') html += `<section style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:80px 20px;text-align:center"><h1>${b.config.title || 'Welcome'}</h1><p>${b.config.subtitle || 'Your awesome website'}</p></section>`;
+    if(b.type === 'site_section') html += `<section style="padding:40px 20px"><h2>${b.config.heading || 'Section'}</h2><p>${b.config.content || 'Content here'}</p></section>`;
+    if(b.type === 'site_form') html += `<section style="padding:40px 20px;background:#f5f5f5"><h3>Contact Us</h3><form><input placeholder="Name"><input placeholder="Email"><button type="submit">Send</button></form></section>`;
+    if(b.type === 'site_footer') html += `<footer style="background:#333;color:#fff;padding:20px;text-align:center">${b.config.text || '© 2026'}</footer>`;
+  });
+  html += '</body></html>';
+  const win = window.open();
+  win.document.write(html);
+  win.document.close();
+  toast('Site generated!', 'success');
+}
+
+function makeCall() {
+  toast('Call initiated (demo) — add API key for real calls', 'info');
+}
+
+// ==================== ЭКСПОРТ В ZIP ====================
+async function exportAsZip() {
+  const JSZip = window.JSZip;
+  if(!JSZip) { toast('Loading JSZip...', 'info'); await new Promise(r => setTimeout(r, 500)); if(!window.JSZip) { toast('Failed to load JSZip', 'error'); return; } }
+  const zip = new JSZip();
+  
+  // Сохраняем блоки и соединения
+  const projectData = {
+    name: document.getElementById('projectName').value,
+    blocks: blocks,
+    connections: connections,
+    nextId: nextId,
+    exportedAt: new Date().toISOString()
+  };
+  zip.file("workflow.json", JSON.stringify(projectData, null, 2));
+  
+  // Генерируем Python runner
+  const pythonCode = `#!/usr/bin/env python3
+"""FlowBuilder AI - Generated Workflow Runner"""
+import json
+import time
+import requests
+import sys
+
+def run_workflow(blocks, connections):
+    print(f"🚀 Running workflow with {len(blocks)} blocks, {len(connections)} connections")
+    for block in blocks:
+        print(f"  ▶ {block['name']} ({block['type']})")
+        # Здесь можно добавить логику выполнения
+        if block['type'] == 'delay':
+            time.sleep(block['config'].get('duration', 1000)/1000)
+    print("✅ Workflow completed!")
+
+if __name__ == "__main__":
+    with open("workflow.json", "r") as f:
+        data = json.load(f)
+    run_workflow(data['blocks'], data['connections'])
+`;
+  zip.file("run_workflow.py", pythonCode);
+  
+  // Генерируем HTML сайта если есть блоки
+  const siteBlocks = blocks.filter(b => b.type.startsWith('site_'));
+  if(siteBlocks.length > 0) {
+    let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${document.getElementById('projectName').value}</title><style>body{font-family:sans-serif;margin:0}</style></head><body>`;
+    blocks.forEach(b => {
+      if(b.type === 'site_menu') html += `<nav>${b.config.items || 'Menu'}</nav>`;
+      if(b.type === 'site_hero') html += `<section class="hero"><h1>${b.config.title || 'Welcome'}</h1></section>`;
+      if(b.type === 'site_section') html += `<section><h2>${b.config.heading || 'Section'}</h2></section>`;
+      if(b.type === 'site_footer') html += `<footer>${b.config.text || '© 2026'}</footer>`;
+    });
+    html += `</body></html>`;
+    zip.file("generated_site.html", html);
+  }
+  
+  // Создаём README
+  const readme = `# ${document.getElementById('projectName').value}
+Generated by FlowBuilder AI
+
+## Files
+- workflow.json - workflow definition
+- run_workflow.py - Python runner script
+- generated_site.html - generated website (if any)
+
+## Usage
+\`\`\`bash
+python run_workflow.py
+\`\`\`
+`;
+  zip.file("README.txt", readme);
+  
+  const blob = await zip.generateAsync({type: "blob"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${document.getElementById('projectName').value.replace(/\s/g, '_')}_workflow.zip`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('ZIP exported successfully!', 'success');
+  log('Project exported to ZIP');
+}
+
+// ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
+function updateProps() {
+  const noSel = document.getElementById('noSelection');
+  const content = document.getElementById('propsContent');
+  if(selectedBlocks.size === 0) { noSel.style.display = ''; content.style.display = 'none'; return; }
+  noSel.style.display = 'none'; content.style.display = '';
+  const block = blocks.find(b => b.id === [...selectedBlocks][0]);
+  if(!block) return;
+  content.innerHTML = `<div class="prop-group"><label>Name</label><input value="${block.name}" onchange="blocks.find(b=>b.id==='${block.id}').name=this.value;renderBlocks()"></div>
+    <div class="prop-group"><label>Description</label><textarea onchange="blocks.find(b=>b.id==='${block.id}').desc=this.value">${block.desc}</textarea></div>
+    ${block.type==='site_menu' ? `<div class="prop-group"><label>Menu items</label><input value="${block.config.items||'Home,About,Contact'}" onchange="blocks.find(b=>b.id==='${block.id}').config.items=this.value"></div>` : ''}
+    ${block.type==='site_hero' ? `<div class="prop-group"><label>Title</label><input value="${block.config.title||''}" onchange="blocks.find(b=>b.id==='${block.id}').config.title=this.value"></div><div class="prop-group"><label>Subtitle</label><input value="${block.config.subtitle||''}" onchange="blocks.find(b=>b.id==='${block.id}').config.subtitle=this.value"></div>` : ''}
+    ${block.type==='site_section' ? `<div class="prop-group"><label>Heading</label><input value="${block.config.heading||''}" onchange="blocks.find(b=>b.id==='${block.id}').config.heading=this.value"></div><div class="prop-group"><label>Content</label><textarea onchange="blocks.find(b=>b.id==='${block.id}').config.content=this.value">${block.config.content||''}</textarea></div>` : ''}
+    ${block.type==='site_footer' ? `<div class="prop-group"><label>Footer text</label><input value="${block.config.text||'© 2026'}" onchange="blocks.find(b=>b.id==='${block.id}').config.text=this.value"></div>` : ''}`;
+}
+function switchTab(tab) {
+  document.querySelectorAll('.sidebar-tabs button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tabProps').classList.add('hidden');
+  document.getElementById('tabAI').classList.add('hidden');
+  if(tab === 'props') { document.querySelector('.sidebar-tabs button:first-child').classList.add('active'); document.getElementById('tabProps').classList.remove('hidden'); }
+  else { document.querySelector('.sidebar-tabs button:last-child').classList.add('active'); document.getElementById('tabAI').classList.remove('hidden'); }
+}
+function updateStats() { document.getElementById('blockCount').textContent = blocks.length + ' blocks'; document.getElementById('connCount').textContent = connections.length + ' connections'; }
+function updateMinimap() {
+  const canvas = document.getElementById('minimapCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 160; canvas.height = 100;
+  ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,160,100);
+  if(blocks.length===0) return;
+  let minX=Infinity, minY=Infinity, maxX=-Infinity, maxY=-Infinity;
+  blocks.forEach(b => { minX = Math.min(minX, b.x); minY = Math.min(minY, b.y); maxX = Math.max(maxX, b.x+b.width); maxY = Math.max(maxY, b.y+b.height); });
+  const pad = 50, w = maxX-minX+pad*2||1, h = maxY-minY+pad*2||1;
+  const scale = Math.min(160/w, 100/h);
+  const ox = (160 - w*scale)/2, oy = (100 - h*scale)/2;
+  blocks.forEach(b => { ctx.fillStyle = '#2a2a4a'; ctx.fillRect(ox+(b.x-minX+pad)*scale, oy+(b.y-minY+pad)*scale, b.width*scale, b.height*scale); });
+}
+function saveState() { undoStack.push(JSON.stringify({blocks,connections,nextId})); if(undoStack.length>50) undoStack.shift(); redoStack=[]; }
+function undo() { if(!undoStack.length) return; redoStack.push(JSON.stringify({blocks,connections,nextId})); const s=JSON.parse(undoStack.pop()); blocks=s.blocks; connections=s.connections; nextId=s.nextId; selectedBlocks.clear(); renderBlocks(); updateStats(); toast('Undo','info'); }
+function redo() { if(!redoStack.length) return; undoStack.push(JSON.stringify({blocks,connections,nextId})); const s=JSON.parse(redoStack.pop()); blocks=s.blocks; connections=s.connections; nextId=s.nextId; selectedBlocks.clear(); renderBlocks(); updateStats(); toast('Redo','info'); }
+function saveProject() { localStorage.setItem('flowbuilder', JSON.stringify({name:document.getElementById('projectName').value, blocks, connections, nextId})); toast('Saved','success'); }
+function loadProject() { const d=localStorage.getItem('flowbuilder'); if(d) { const p=JSON.parse(d); blocks=p.blocks; connections=p.connections; nextId=p.nextId; document.getElementById('projectName').value=p.name; renderBlocks(); updateStats(); toast('Loaded','success'); } else toast('No save','error'); }
+function filterBlocks() { const q=document.getElementById('blockSearch').value.toLowerCase(); document.querySelectorAll('.category-items').forEach(i=>{i.querySelectorAll('.block-item').forEach(b=>{b.style.display=b.querySelector('.name').textContent.toLowerCase().includes(q)?'': 'none';});}); }
+function toast(msg,type) { const c=document.getElementById('toastContainer'); const t=document.createElement('div'); t.className=`toast ${type}`; t.textContent=msg; c.appendChild(t); setTimeout(()=>t.remove(),2500); }
+function log(msg) { document.getElementById('logOutput').textContent=msg; }
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  addChatMsg(msg, 'user');
+  addChatMsg('🤖 I understand you want to build something. Drag blocks from the left panel to create your workflow!', 'ai');
+}
+function addChatMsg(text, role) {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.textContent = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+function aiSuggest(text) { addChatMsg(text, 'user'); addChatMsg('👍 Great idea! Drag the appropriate blocks from the left panel and connect them.', 'ai'); }
+</script>
+</body>
+</html>
